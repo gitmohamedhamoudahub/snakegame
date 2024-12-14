@@ -5,26 +5,44 @@ let board;
 let context;
 
 //snake
-let snakeX = 5;
-let snakeY = 5;
+let snakeX = 10;
+let snakeY = 10;
 
 let appleX ;
 let appleY ;
 let velocityX = 0;
-let VelocityY = 0;
+let velocityY = 0;
 
 window.addEventListener('keydown', (event) => {
 console.log(event.key);
     switch (event.key) {
-      case 'ArrowLeft':
-        
-        break;
+        case 'ArrowUp':
+           {
+            velocityX = 0
+            velocityY =-1;
+            break;
+           }
+        case 'ArrowDown':
+            {
+                velocityX = 0
+                velocityY =1;
+                break;
+            }
+
+        case 'ArrowLeft':
+            {
+                velocityX = -1
+                velocityY = 0;
+                break;
+            }
       case 'ArrowRight':
-        
-        break;
-      case ' ':
-        
-        break;
+        {
+            console.log('....Move Right....');
+            velocityX = 1;
+            velocityY =0;
+            break;
+        }
+      
     }
   });
   
@@ -36,18 +54,23 @@ board.width = columns * blockSize;
 context = board.getContext("2d");
 placeApple();
 
-refreshGameBoard();
+// refreshGameBoard();
+setInterval(refreshGameBoard,1000/10);
 }
 
 moveSnake = (key) => {
 }
 
-refreshGameBoard = () =>
+function refreshGameBoard() 
 {
+    console.log('Refresh Called');
     context.fillStyle = 'black';
     context.fillRect(0,0,board.width,board.height)
 
     context.fillStyle = 'green';
+    snakeX += velocityX * blockSize;
+    snakeY += velocityY * blockSize;
+    console.log(`X= ${snakeX} Y= ${snakeY}`);
     context.fillRect(snakeX,snakeY,blockSize,blockSize);
 
     context.fillStyle = 'red';
