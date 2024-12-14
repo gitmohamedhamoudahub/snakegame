@@ -10,6 +10,24 @@ let snakeY = 5;
 
 let appleX ;
 let appleY ;
+let velocityX = 0;
+let VelocityY = 0;
+
+window.addEventListener('keydown', (event) => {
+console.log(event.key);
+    switch (event.key) {
+      case 'ArrowLeft':
+        
+        break;
+      case 'ArrowRight':
+        
+        break;
+      case ' ':
+        
+        break;
+    }
+  });
+  
 
 window.onload = function() {
 board = document.getElementById('gameBoard');
@@ -17,7 +35,11 @@ board.height = rows * blockSize ;
 board.width = columns * blockSize;  
 context = board.getContext("2d");
 placeApple();
+
 refreshGameBoard();
+}
+
+moveSnake = (key) => {
 }
 
 refreshGameBoard = () =>
