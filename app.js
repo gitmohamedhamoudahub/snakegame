@@ -8,15 +8,15 @@ let context;
 let snakeX = 5;
 let snakeY = 5;
 
-let appleX = 10;
-let appleY = 10;
+let appleX ;
+let appleY ;
 
 window.onload = function() {
 board = document.getElementById('gameBoard');
 board.height = rows * blockSize ;
 board.width = columns * blockSize;  
-context = board.getContext('2d');
-
+context = board.getContext("2d");
+placeApple();
 refreshGameBoard();
 }
 
@@ -31,4 +31,9 @@ refreshGameBoard = () =>
     context.fillStyle = 'red';
     context.fillRect(appleX,appleY,blockSize,blockSize);
 
+}
+
+placeApple = () =>{
+    appleX = Math.floor(Math.random() * columns) * blockSize;
+    appleY = Math.floor(Math.random() * rows) * blockSize;
 }
