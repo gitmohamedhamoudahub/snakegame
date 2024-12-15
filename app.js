@@ -5,42 +5,55 @@ let board;
 let context;
 
 //snake
-let snakeX = 10;
-let snakeY = 10;
-
+let snakeX = Math.floor(Math.random() * columns) * blockSize;
+let snakeY = Math.floor(Math.random() * rows) * blockSize;
+ 
 let appleX ;
 let appleY ;
+
 let velocityX = 0;
 let velocityY = 0;
 
+let snakeBody = [];
+
 window.addEventListener('keydown', (event) => {
-console.log(event.key);
+// console.log(event.key);
     switch (event.key) {
         case 'ArrowUp':
            {
-            velocityX = 0
-            velocityY =-1;
-            break;
+            if(velocityY != 1)
+                {                
+                    velocityX = 0;                
+                    velocityY =-1;                
+                    break;
+                }
            }
         case 'ArrowDown':
             {
-                velocityX = 0
-                velocityY =1;
-                break;
+                if(velocityY != -1)
+                    {               
+                        velocityX = 0;                
+                        velocityY = 1;                
+                        break;
+                    }
             }
 
         case 'ArrowLeft':
             {
-                velocityX = -1
-                velocityY = 0;
-                break;
-            }
+                if(velocityX != 1)
+                    {
+                        velocityX = -1;                
+                        velocityY = 0;                
+                        break;
+            }}
       case 'ArrowRight':
         {
-            console.log('....Move Right....');
-            velocityX = 1;
-            velocityY =0;
-            break;
+            if(velocityX != -1)
+                {                   
+                    velocityX = 1;            
+                    velocityY =0;           
+                    break;
+                }
         }
       
     }
@@ -55,7 +68,7 @@ context = board.getContext("2d");
 placeApple();
 
 // refreshGameBoard();
-setInterval(refreshGameBoard,1000/10);
+setInterval(refreshGameBoard,100);
 }
 
 moveSnake = (key) => {
@@ -63,18 +76,40 @@ moveSnake = (key) => {
 
 function refreshGameBoard() 
 {
-    console.log('Refresh Called');
+    // console.log('Refresh Called');
+    //Game Board
     context.fillStyle = 'black';
     context.fillRect(0,0,board.width,board.height)
 
+    //Apple     
+    context.fillStyle = 'red';
+    context.fillRect(appleX,appleY,blockSize,blockSize);
+
+
+    if((snakeX == appleX) && (snakeY == appleY))
+    {
+
+        snakeBody.push([snakeX,snakeY]);
+        console.log('Eaten...' + snakeBody);
+        placeApple();
+    }
+    for(let i = snakeBody.length -1 ;i--)
+    {
+        snakeBody[i] = snakeBody[i-1];
+
+    }
+    //Snake
     context.fillStyle = 'green';
     snakeX += velocityX * blockSize;
     snakeY += velocityY * blockSize;
-    console.log(`X= ${snakeX} Y= ${snakeY}`);
-    context.fillRect(snakeX,snakeY,blockSize,blockSize);
+    // console.log(`X= ${snakeX} Y= ${snakeY}`);
+    context.fillRect(snakeX,snakeY,blockSize,blockSize);  
 
-    context.fillStyle = 'red';
-    context.fillRect(appleX,appleY,blockSize,blockSize);
+    for(let i=0; i<snakeBody.length; i++)
+    {
+        console.log('snake body ');
+        context.fillRect(snakeBody[i][0],snakeBody[i][1],blockSize,blockSize);
+    }
 
 }
 
