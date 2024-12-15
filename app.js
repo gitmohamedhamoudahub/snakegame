@@ -16,6 +16,8 @@ let velocityY = 0;
 
 let snakeBody = [];
 
+let isGameOver = false;
+
 window.addEventListener('keydown', (event) => {
 // console.log(event.key);
     switch (event.key) {
@@ -76,6 +78,8 @@ moveSnake = (key) => {
 
 function refreshGameBoard() 
 {
+    if(isGameOver) return;
+
     // console.log('Refresh Called');
     //Game Board
     context.fillStyle = 'black';
@@ -93,10 +97,17 @@ function refreshGameBoard()
         console.log('Eaten...' + snakeBody);
         placeApple();
     }
-    for(let i = snakeBody.length -1 ;i--)
+    // let snakeBodyLength = 0;
+    
+    for(let i = snakeBody.length-1; i > 0 ; i--)
     {
         snakeBody[i] = snakeBody[i-1];
 
+    }
+
+    if(snakeBody.length)
+    {
+        snakeBody[0] = [snakeX,snakeY];;
     }
     //Snake
     context.fillStyle = 'green';
@@ -110,8 +121,20 @@ function refreshGameBoard()
         console.log('snake body ');
         context.fillRect(snakeBody[i][0],snakeBody[i][1],blockSize,blockSize);
     }
-
-}
+    if(snakeX < 0 || snakeY<0 || (snakeX > blockSize * columns) || (snakeY > blockSize * rows)) 
+    {
+        isGameOver = true;
+        alert('GAME OVER!');
+    }
+    for(let i = 0; i < snakeBody.length; i++)
+    {
+        if(snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1])
+        {               
+            isGameOver = true;        
+            alert('GAME OVER!');
+        }
+    }
+    }
 
 placeApple = () =>{
     appleX = Math.floor(Math.random() * columns) * blockSize;
